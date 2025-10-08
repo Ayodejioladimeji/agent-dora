@@ -32,7 +32,7 @@ export function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
 
   return (
     <div className="border-t border-border bg-background px-6 py-4">
-      <form onSubmit={handleSubmit} className="mx-auto max-w-3xl">
+      <form onSubmit={handleSubmit} className="mx-auto max-w-4xl">
         <div className="flex items-end gap-2">
           <Button type="button" variant="ghost" size="icon" className="shrink-0 hover:bg-accent">
             <Paperclip className="h-5 w-5" />

@@ -1,24 +1,12 @@
 "use client"
 
-import { useEffect } from "react"
-import { useSearchParams } from "next/navigation"
+import { Suspense } from "react"
+import CallbackPageInner from "./callback-page"
 
 export default function CallbackPage() {
-    const searchParams = useSearchParams()
-    const platform = searchParams.get("platform")
-
-    useEffect(() => {
-        if (!platform) return
-
-        // Notify parent window
-        window.opener?.postMessage(
-            { type: "oauth_success", platform },
-            process.env.NEXT_PUBLIC_BASE_URL!
-        )
-
-        // Close popup
-        window.close()
-    }, [platform])
-
-    return <p className="text-sm">Finishing authentication for {platform}...</p>
+    return (
+        <Suspense fallback={<p className="text-sm">Loading...</p>}>
+            <CallbackPageInner />
+        </Suspense>
+    )
 }

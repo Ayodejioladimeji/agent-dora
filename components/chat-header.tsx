@@ -1,7 +1,8 @@
 "use client"
 
-import { Settings, Sparkles, FileText } from "lucide-react"
+import { Settings, FileText } from "lucide-react"
 import { Button } from "./ui/button"
+import Image from "next/image"
 
 interface ChatHeaderProps {
   onSettingsClick: () => void
@@ -12,8 +13,8 @@ export function ChatHeader({ onSettingsClick, onPublishedClick }: ChatHeaderProp
   return (
     <header className="flex items-center justify-between border-b border-border bg-background px-6 py-4">
       <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-900">
-          <Sparkles className="h-6 w-6 text-white" />
+        <div className="flex min-h-10 min-w-10 items-center justify-center rounded-lg bg-red-900">
+          <Image src="/logo.png" alt="logo" width={10} height={10} className="min-h-10 min-w-10" />
         </div>
         <div>
           <h1 className="text-lg font-bold text-foreground">Dora</h1>
