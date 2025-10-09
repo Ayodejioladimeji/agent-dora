@@ -43,11 +43,9 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
 
   if (!settings) {
     return (
-      <div className="w-96 border-l border-border bg-background">
-        <div className="h-full flex flex-col items-center justify-center p-6">
-          <Loading color="red-900" />
-          <p className="text-sm text-muted">Loading settings</p>
-        </div>
+      <div className="h-full flex flex-col items-center justify-center p-6">
+        <Loading color="red-900" />
+        <p className="text-sm text-muted">Loading settings</p>
       </div>
     )
   }

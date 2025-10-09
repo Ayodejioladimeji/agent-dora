@@ -34,12 +34,12 @@ export function MultiSelect({ options, value, onChange, placeholder = "Select...
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between bg-transparent"
+          className="w-full justify-between bg-transparent h-full hover:bg-transparent"
         >
           <div className="flex flex-wrap gap-1">
             {value.length > 0 ? (
               value.map((item) => (
-                <Badge key={item} variant="secondary" className="mr-1 flex items-center gap-1">
+                <Badge key={item} variant="secondary" className="mr-1 flex items-center gap-1 bg-red-50">
                   {item}
                   <span
                     role="button"
@@ -68,7 +68,8 @@ export function MultiSelect({ options, value, onChange, placeholder = "Select...
           </div>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0" align="start">
+
+      <PopoverContent className="w-full p-0 bg-white" align="start">
         <Command>
           <CommandInput placeholder="Search..." />
           <CommandList>

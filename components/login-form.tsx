@@ -7,6 +7,7 @@ import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { Label } from "./ui/label"
 import { Sparkles } from "lucide-react"
+import Image from "next/image"
 
 interface LoginFormProps {
   onLogin: (email: string, name: string) => void
@@ -42,8 +43,8 @@ export function LoginForm({ onLogin }: LoginFormProps) {
     <div className="flex min-h-screen items-center justify-center bg-surface">
       <div className="w-full max-w-md space-y-6 rounded-lg border border-border bg-background p-8 shadow-lg">
         <div className="flex flex-col items-center gap-3">
-          <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-(--color-primary)">
-            <Sparkles className="h-8 w-8 text-white" />
+          <div className="flex min-h-10 min-w-10 items-center justify-center rounded-lg bg-red-900">
+            <Image src="/logo.png" alt="logo" width={10} height={10} className="min-h-10 min-w-10" />
           </div>
           <div className="text-center">
             <h1 className="text-2xl font-bold">Welcome to Dora</h1>

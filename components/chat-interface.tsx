@@ -7,6 +7,8 @@ import { ChatInput } from "./chat-input"
 import { SettingsPanel } from "./settings-panel"
 import { useAuth } from "@/lib/hooks/use-auth"
 import { PublishedPostsPanel } from "./published-posts-panel"
+import { Drawer, DrawerContent, DrawerTitle } from "./ui/drawer"
+import { useMediaQuery } from "@/lib/media-query"
 
 export function ChatInterface() {
   const [showSettings, setShowSettings] = useState(false)
@@ -16,6 +18,7 @@ export function ChatInterface() {
   const [chatId, setChatId] = useState<string | null>(null)
   const { user } = useAuth()
   const [callback, setCallback] = useState(false)
+
 
   useEffect(() => {
     if (user?.id) {
@@ -154,94 +157,6 @@ export function ChatInterface() {
     }
   }
 
-  // const handleSendMessage = async (content: string, action?: string, metadata?: any) => {
-  //   const lastMessage = messages[messages.length - 1]
-  //   if (lastMessage?.metadata?.awaitingContent && content) {
-  //     action = "generate_from_paste"
-  //     metadata = { ...metadata, platform: lastMessage.metadata.platform, userContent: content }
-  //   }
-
-  //   if (content) {
-  //     const userMessage = {
-  //       id: Date.now().toString(),
-  //       role: "user",
-  //       content,
-  //       timestamp: new Date(),
-  //     }
-  //     setMessages((prev) => [...prev, userMessage])
-  //   }
-
-  //   setIsLoading(true)
-
-  //   const loadingMsg = {
-  //     id: "loading-" + Date.now().toString(),
-  //     role: "assistant",
-  //     content: "",   // no text yet
-  //     timestamp: new Date(),
-  //     metadata: { loading: true },
-  //   }
-  //   setMessages((prev) => [...prev, loadingMsg])
-
-  //   try {
-  //     const response = await fetch("/api/chat", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         message: content,
-  //         action,
-  //         metadata,
-  //         chatId,
-  //         userId: user?.id || "demo",
-  //       }),
-  //     })
-
-  //     if (!response.ok) {
-  //       const errorData = await response.json()
-  //       throw new Error(errorData.error || "Failed to send message")
-  //     }
-
-  //     const data = await response.json()
-
-  //     if (data.metadata?.flowComplete) {
-  //       setMessages([
-  //         {
-  //           id: "1",
-  //           role: "assistant",
-  //           content: `${data.response}\n\nWhat would you like to do next?`,
-  //           timestamp: new Date(),
-  //           actions: [
-  //             { label: "📋 Paste My Content", value: "paste_content", variant: "default" },
-  //             { label: "🔥 Fetch Trending Topics", value: "fetch_trends", variant: "outline" },
-  //           ],
-  //         },
-  //       ])
-  //       // Optionally refresh published panel if open
-  //       return
-  //     }
-
-  //     const assistantMessage = {
-  //       id: (Date.now() + 1).toString(),
-  //       role: "assistant",
-  //       content: data.response,
-  //       timestamp: new Date(),
-  //       metadata: data.metadata,
-  //       actions: data.actions,
-  //     }
-  //     setMessages((prev) => [...prev, assistantMessage])
-  //   } catch (error) {
-  //     console.error("[v0] Failed to send message:", error)
-  //     const errorMessage = {
-  //       id: (Date.now() + 1).toString(),
-  //       role: "assistant",
-  //       content: "Sorry, I encountered an error. Please try again or check your settings.",
-  //       timestamp: new Date(),
-  //     }
-  //     setMessages((prev) => [...prev, errorMessage])
-  //   } finally {
-  //     setIsLoading(false)
-  //   }
-  // }
-
   const handleSendMessage = async (content: string, action?: string, metadata?: any) => {
     const lastMessage = messages[messages.length - 1]
     if (lastMessage?.metadata?.awaitingContent && content) {
@@ -340,6 +255,7 @@ export function ChatInterface() {
     }
   }
 
+  const isDesktop = useMediaQuery("(min-width: 1024px)")
 
   return (
     <div className="flex h-screen bg-surface">
@@ -352,8 +268,33 @@ export function ChatInterface() {
         <ChatInput onSendMessage={(content) => handleSendMessage(content)} disabled={isLoading} />
       </div>
 
-      {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} />}
-      {showPublished && <PublishedPostsPanel onClose={() => setShowPublished(false)} />}
+      {isDesktop && (
+        <>
+          {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} />}
+          {showPublished && <PublishedPostsPanel onClose={() => setShowPublished(false)} />}
+        </>
+      )}
+
+
+      {!isDesktop && (
+        <>
+          <Drawer open={showSettings} onOpenChange={setShowSettings} direction="right">
+            <DrawerContent className="w-[90%] ml-auto h-full rounded-none">
+              <DrawerTitle></DrawerTitle>
+              <SettingsPanel onClose={() => setShowSettings(false)} />
+            </DrawerContent>
+          </Drawer>
+
+          <Drawer open={showPublished} onOpenChange={setShowPublished} direction="right">
+            <DrawerContent className="w-[90%] ml-auto h-full rounded-none">
+              <DrawerTitle></DrawerTitle>
+              <PublishedPostsPanel onClose={() => setShowPublished(false)} />
+            </DrawerContent>
+          </Drawer>
+        </>
+      )}
     </div>
   )
 }
+
+
