@@ -8,16 +8,12 @@ import { createPost } from "@/lib/db/posts"
 import { addMessage } from "@/lib/db/chats"
 import { generatePost } from "@/lib/ai/content-generator"
 import { AgentSettings, getSettings } from "@/lib/db/settings"
-import { Settings } from "@/types/user"
+
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { message, chatId, userId, action, metadata } = body
-
-    if (!userId || userId === "demo") {
-      return handleDemoMode(message, action, metadata, userId)
-    }
 
     // For authenticated users, use full functionality
     return handleAuthenticatedMode(message, action, metadata, userId, chatId)
@@ -29,7 +25,6 @@ export async function POST(request: NextRequest) {
     )
   }
 }
-
 
 
 async function handleDemoMode(message: string, userId: string, action?: string, metadata?: any) {
@@ -67,7 +62,8 @@ async function handleDemoMode(message: string, userId: string, action?: string, 
         value: `topic_${i}`,
         variant: "outline" as const,
       }))
-    } else if (action === "select_topic") {
+    }
+    else if (action === "select_topic") {
       const topic = metadata?.topic || message
       response = `Great choice! Which platform would you like to create content for?`
       responseMetadata.selectedTopic = topic
@@ -77,10 +73,10 @@ async function handleDemoMode(message: string, userId: string, action?: string, 
         { label: "Twitter", value: "platform_twitter", variant: "outline" },
         { label: "Facebook", value: "platform_facebook", variant: "outline" },
       ]
-    } else if (action === "generate_post" || action === "generate_from_paste") {
+    }
+    else if (action === "generate_post" || action === "generate_from_paste") {
       const platform = metadata?.platform || "linkedin"
-      const topic = metadata?.topic || metadata?.userContent || "AI and technology"
-
+      const topic = metadata?.topic || metadata?.userContent
 
       const userSettings = await getSettings(userId)
 
@@ -93,30 +89,35 @@ async function handleDemoMode(message: string, userId: string, action?: string, 
 
       // Ensure settings is always AgentSettings (no null)
       const settings: AgentSettings = userSettings ?? defaultAgentSettings
+
       try {
-
-
         const generatedContent = await generatePost({
           platform,
           topic,
           settings,
           additionalContext: metadata?.additionalContext,
         })
+
         response = `Here's your ${platform} post:\n\n${generatedContent}\n\nWhat would you like to do next?`
         responseMetadata.platform = platform
+        responseMetadata.topic = topic
         responseMetadata.generatedContent = generatedContent
 
         actions = [
           { label: "✅ Looks Good", value: "looks_good", variant: "default" },
-          { label: "✏️ Modify", value: "modify_post", variant: "outline" },
-          { label: "🔄 Create New", value: "try_another_platform", variant: "outline" },
+          { label: "🔄 Regenerate Post", value: "change_platform", variant: "outline" },
+          { label: "🎯 Clear chat", value: "clear_chat", variant: "outline" },
         ]
       } catch (error) {
         console.error("Gemini generation error:", error)
         response = `I'll create a ${platform} post about "${topic}" for you. However, I need the GEMINI_API_KEY to be configured. Please add it to your environment variables.`
       }
-    } else {
-
+    }
+    else if (action === "clear_chat") {
+      response = `✅ Chat cleared successfully, you can start again!`
+      responseMetadata.flowComplete = true
+    }
+    else {
       // Check if user wants to restart the flow
       if (isRestartIntent(message)) {
         response = "Got it! Let's start fresh 🎉 Please tell me what you'd like to post about."
@@ -126,10 +127,16 @@ async function handleDemoMode(message: string, userId: string, action?: string, 
           { label: "Paste My Own Idea", value: "generate_from_paste", variant: "outline" },
         ]
       } else {
-        // General conversation using Gemini
+
         try {
-          const conversationPrompt = `You are Dora, a friendly social media assistant. Respond naturally to: "${message}", "IMPORTANT: Use plain text only as your response, NO markdown formatting."`
+          const conversationPrompt = `
+            You are Dora, a warm and friendly social media assistant. 
+            Have a natural, human-like conversation with the user based on this message: "${message}".
+            Keep your tone engaging and supportive, like chatting with a friend. 
+            Always reply in plain text only — do not use markdown, bullet points, or formatting symbols.
+            `
           response = await generateContent(conversationPrompt)
+
         } catch (error) {
           // Fallback response if Gemini is not configured
           response = handleGeneralMessage(message)
@@ -143,13 +150,14 @@ async function handleDemoMode(message: string, userId: string, action?: string, 
     return NextResponse.json(
       {
         response:
-          "I'm having trouble processing that. Please make sure GEMINI_API_KEY is configured in your environment variables.",
+          "Please open the settings panel to set your default configurations",
         metadata: {},
       },
       { status: 200 },
     )
   }
 }
+
 
 async function handleAuthenticatedMode(
   message: string,

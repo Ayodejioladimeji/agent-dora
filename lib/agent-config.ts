@@ -1,4 +1,6 @@
-export const agentConfiguration = [
+import { AgentConfigField } from "@/types";
+
+export const agentConfiguration: AgentConfigField[] = [
     {
         label: "language",
         type: "dropdown",
@@ -96,26 +98,6 @@ export const agentConfiguration = [
         required: true,
     },
     {
-        label: "tone",
-        type: "multiselect",
-        options: [
-            "Authoritative",
-            "Conversational",
-            "Inspirational",
-            "Analytical",
-            "Storytelling",
-            "Practical",
-            "Bold",
-            "Empathetic",
-            "Witty",
-            "Formal",
-            "Casual",
-        ],
-        description: "Tone(s) of voice to carry throughout the post.",
-        default: ["Authoritative", "Practical"],
-        required: true,
-    },
-    {
         label: "format",
         type: "dropdown",
         options: [
@@ -183,6 +165,4 @@ export const agentConfiguration = [
         default: "",
         required: false,
     }
-] as const
-
-export type AgentConfigField = (typeof agentConfiguration)[number]
+]

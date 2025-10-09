@@ -71,11 +71,13 @@ export function ChatInterface() {
         body: JSON.stringify({ chatId, messages, userId }),
       })
     } catch (error) {
-      console.error("[v0] Failed to save messages:", error)
+      console.error("Failed to save messages:", error)
     }
   }
 
   const handleAction = async (action: string, messageMetadata?: any) => {
+    console.log(action)
+
     if (action === "fetch_trends") {
       await handleSendMessage("", "fetch_trends")
     } else if (action === "paste_content") {
@@ -129,15 +131,6 @@ export function ChatInterface() {
       }
 
       await handleSendMessage("", "confirm_post", messageMetadata)
-    } else if (action === "modify_post" || action === "edit") {
-      const editMessage = {
-        id: Date.now().toString(),
-        role: "assistant",
-        content: "What would you like me to change about this post?",
-        timestamp: new Date(),
-        metadata: { ...messageMetadata, awaitingModification: true },
-      }
-      setMessages((prev) => [...prev, editMessage])
     } else if (action === "change_platform" || action === "try_another_platform") {
       const platformMessage = {
         id: Date.now().toString(),
@@ -155,6 +148,10 @@ export function ChatInterface() {
     } else if (action === "regenerate") {
       await handleSendMessage("", "regenerate_post", messageMetadata)
     }
+    else if (action === "clear_chat") {
+      await handleSendMessage("", "clear_chat", messageMetadata)
+    }
+
   }
 
   const handleSendMessage = async (content: string, action?: string, metadata?: any) => {

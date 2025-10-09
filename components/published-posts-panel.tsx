@@ -101,7 +101,7 @@ export function PublishedPostsPanel({ onClose }: PublishedPostsPanelProps) {
                         <p className="text-sm text-muted">Loading posts</p>
                     </div>
                 ) : posts.length === 0 ? (
-                    <p className="text-sm text-muted">No published posts yet.</p>
+                    <p className="text-sm text-muted text-center mt-20">No published posts yet.</p>
                 ) : (
                     posts.map((post) => (
                         <div

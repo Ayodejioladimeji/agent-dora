@@ -4,7 +4,6 @@ import type React from "react"
 import { X, Linkedin, Twitter, Facebook } from "lucide-react"
 import { Button } from "./ui/button"
 import { Label } from "./ui/label"
-import { Switch } from "./ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
 import { Input } from "./ui/input"
 import { MultiSelect } from "./ui/multi-select"
@@ -12,7 +11,6 @@ import { useAuth } from "@/lib/hooks/use-auth"
 import { useSettings } from "@/lib/hooks/use-settings"
 import { agentConfiguration } from "@/lib/agent-config"
 import { Loading } from "./loading"
-import { toast } from "./ui/use-toast"
 import { showSuccess } from "@/lib/toast"
 
 interface SettingsPanelProps {
@@ -41,15 +39,6 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
     showSuccess("Settings Updated")
   }
 
-  if (!settings) {
-    return (
-      <div className="h-full flex flex-col items-center justify-center p-6">
-        <Loading color="red-900" />
-        <p className="text-sm text-muted">Loading settings</p>
-      </div>
-    )
-  }
-
   return (
     <div className="w-96 border-l border-border bg-background">
       {/* Header */}
@@ -64,15 +53,15 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
       <div className="h-[calc(100vh-73px)] overflow-y-auto p-6">
         <div className="space-y-6">
           {/* User Info */}
-          {user && (
-            <div className="space-y-2">
-              <h3 className="text-sm font-bold">Account</h3>
+          <div className="space-y-2">
+            <h3 className="text-sm font-bold">Account</h3>
+            {user && (
               <div className="rounded-lg bg-accent p-3">
                 <p className="text-sm font-medium">{user.name}</p>
                 <p className="text-xs text-muted">{user.email}</p>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Connected Accounts */}
           <div className="space-y-3">
@@ -101,64 +90,75 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
 
           <div className="space-y-4">
             <h3 className="text-sm font-bold">Agent Preferences</h3>
+            {!settings ?
+              <div className="h-full flex flex-col items-center justify-center p-6">
+                <Loading color="red-900" />
+                <p className="text-sm text-muted">Loading settings</p>
+              </div> :
+              <>
 
-            {agentConfiguration.map((field) => {
-              const value = settings[field.label] ?? field.default
+                {agentConfiguration.map((field) => {
+                  const value = settings?.[field.label] ?? field.default
 
-              return (
-                <div key={field.label} className="space-y-2">
-                  <Label htmlFor={field.label} className="text-xs">
-                    {field.label.charAt(0).toUpperCase() + field.label.slice(1).replace(/([A-Z])/g, " $1")}
-                    {field.required && <span className="text-red-500 ml-1">*</span>}
-                  </Label>
-                  <p className="text-xs text-muted">{field.description}</p>
+                  if (field.label === "manualHashtags" && settings?.["hashtagMode"] !== "Manual") {
+                    return null
+                  }
 
-                  {field.type === "dropdown" && (
-                    <Select value={value} onValueChange={(val) => handleSettingChange(field.label, val)}>
-                      <SelectTrigger id={field.label}>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="bg-white">
-                        {field.options.map((option) => (
-                          <SelectItem key={option} value={option}>
-                            {option}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  )}
+                  return (
+                    <div key={field.label} className="space-y-2">
+                      <Label htmlFor={field.label} className="text-xs">
+                        {field.label.charAt(0).toUpperCase() + field.label.slice(1).replace(/([A-Z])/g, " $1")}
+                        {field.required && <span className="text-red-500 ml-1">*</span>}
+                      </Label>
+                      <p className="text-xs text-muted">{field.description}</p>
 
-                  {field.type === "multiselect" && (
-                    <MultiSelect
-                      options={field.options}
-                      value={Array.isArray(value) ? value : []}
-                      onChange={(val) => handleSettingChange(field.label, val)}
-                      placeholder={`Select ${field.label}...`}
+                      {field.type === "dropdown" && (
+                        <Select value={value} onValueChange={(val) => handleSettingChange(field.label, val)}>
+                          <SelectTrigger id={field.label}>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="bg-white">
+                            {field.options.map((option) => (
+                              <SelectItem key={option} value={option}>
+                                {option}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )}
 
-                    />
-                  )}
+                      {field.type === "multiselect" && (
+                        <MultiSelect
+                          options={field.options}
+                          value={Array.isArray(value) ? value : []}
+                          onChange={(val) => handleSettingChange(field.label, val)}
+                          placeholder={`Select ${field.label}...`}
+                        />
+                      )}
 
-                  {field.type === "text" && (
-                    <Input
-                      id={field.label}
-                      type="text"
-                      value={value}
-                      onChange={(e) => handleSettingChange(field.label, e.target.value)}
-                      placeholder={field.description}
-                    />
-                  )}
+                      {field.type === "text" && (
+                        <Input
+                          id={field.label}
+                          type="text"
+                          value={value}
+                          onChange={(e) => handleSettingChange(field.label, e.target.value)}
+                          placeholder={field.description}
+                        />
+                      )}
 
-                  {field.type === "number" && (
-                    <Input
-                      id={field.label}
-                      type="number"
-                      value={value}
-                      onChange={(e) => handleSettingChange(field.label, Number.parseFloat(e.target.value))}
-                    />
-                  )}
-                </div>
-              )
-            })}
+                      {field.type === "number" && (
+                        <Input
+                          id={field.label}
+                          type="number"
+                          value={value}
+                          onChange={(e) => handleSettingChange(field.label, Number.parseFloat(e.target.value))}
+                        />
+                      )}
+                    </div>
+                  )
+                })}
+
+              </>}
           </div>
         </div>
       </div>
