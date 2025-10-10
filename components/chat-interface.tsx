@@ -18,6 +18,7 @@ export function ChatInterface() {
   const [chatId, setChatId] = useState<string | null>(null)
   const { user } = useAuth()
   const [callback, setCallback] = useState(false)
+  const [images, setImages] = useState<string[]>([])
 
 
   useEffect(() => {
@@ -167,6 +168,7 @@ export function ChatInterface() {
         role: "user",
         content,
         timestamp: new Date(),
+        images
       }
       setMessages((prev) => [...prev, userMessage])
     }
@@ -194,6 +196,7 @@ export function ChatInterface() {
           metadata,
           chatId,
           userId: user?.id || "demo",
+          images,
         }),
       })
 
@@ -203,7 +206,7 @@ export function ChatInterface() {
       }
 
       const data = await response.json()
-
+      setImages([])
       if (data.metadata?.flowComplete) {
         setMessages([
           {
@@ -234,6 +237,7 @@ export function ChatInterface() {
             : m
         )
       )
+
     } catch (error) {
       console.error("[v0] Failed to send message:", error)
       setMessages((prev) =>
@@ -256,13 +260,13 @@ export function ChatInterface() {
 
   return (
     <div className="flex h-screen bg-surface">
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col overflow-hidden">
         <ChatHeader
           onSettingsClick={() => setShowSettings(!showSettings)}
           onPublishedClick={() => setShowPublished(true)}
         />
         <ChatMessages messages={messages} onAction={handleAction} chatId={chatId} callback={() => setCallback(!callback)} />
-        <ChatInput onSendMessage={(content) => handleSendMessage(content)} disabled={isLoading} />
+        <ChatInput onSendMessage={(content) => handleSendMessage(content)} disabled={isLoading} images={images} setImages={setImages} />
       </div>
 
       {isDesktop && (

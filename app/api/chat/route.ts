@@ -8,15 +8,16 @@ import { createPost } from "@/lib/db/posts"
 import { addMessage } from "@/lib/db/chats"
 import { generatePost } from "@/lib/ai/content-generator"
 import { AgentSettings, getSettings } from "@/lib/db/settings"
+import { generalChats } from "@/lib/ai/general-chat"
 
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { message, chatId, userId, action, metadata } = body
+    const { message, chatId, userId, action, metadata, images } = body
 
     // For authenticated users, use full functionality
-    return handleAuthenticatedMode(message, action, metadata, userId, chatId)
+    return handleAuthenticatedMode(message, action, metadata, userId, chatId, images)
   } catch (error) {
     console.error("Chat API error:", error)
     return NextResponse.json(
@@ -165,6 +166,7 @@ async function handleAuthenticatedMode(
   metadata: any,
   userId: string,
   chatId: string,
+  images: string[]
 ) {
   let response = ""
   const responseMetadata: any = {}
@@ -180,7 +182,7 @@ async function handleAuthenticatedMode(
       const platform = metadata?.platform
       const content = metadata?.generatedContent || metadata?.content
       const draftId = metadata?.draftId
-      const images = metadata?.images || []
+
 
       if (!platform || !content) {
         return NextResponse.json({ error: "Missing platform or content" }, { status: 400 })
