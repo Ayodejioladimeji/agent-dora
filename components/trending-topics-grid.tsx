@@ -16,6 +16,8 @@ interface TrendingTopicsGridProps {
     onSelect: (topic: TrendingTopic) => void
 }
 
+// some comments
+
 export function TrendingTopicsGrid({ topics, onSelect }: TrendingTopicsGridProps) {
     const getPlatformIcon = (platform: string) => {
         switch (platform) {
