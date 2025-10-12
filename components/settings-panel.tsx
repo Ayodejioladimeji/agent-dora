@@ -40,9 +40,9 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
   }
 
   return (
-    <div className="w-96 border-l border-border bg-background">
+    <div className="w-full md:w-96 border-l border-border bg-background">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-border px-6 py-4">
+      <div className="flex items-center justify-between border-b border-border px-6 h-[70px]">
         <h2 className="text-lg font-bold">Settings</h2>
         <Button variant="ghost" size="icon" onClick={onClose}>
           <X className="h-5 w-5" />

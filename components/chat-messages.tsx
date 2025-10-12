@@ -47,7 +47,7 @@ export function ChatMessages({ messages, onAction, chatId, callback }: ChatMessa
   }
 
   return (
-    <div className="flex-1 overflow-y-auto px-6 py-4 ">
+    <div className="flex-1 overflow-y-auto px-2 md:px-6 py-4 ">
       <div className="mx-auto max-w-4xl space-y-4">
         {messages.map((message) => (
           <MessageBubble key={message.id} message={message} onAction={onAction} onDelete={handleDelete} />

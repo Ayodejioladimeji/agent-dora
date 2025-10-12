@@ -71,13 +71,13 @@ export async function GET(request: NextRequest, { params }: { params: { platform
     })
 
     // Redirect back to app with success
-    const response = NextResponse.redirect(`http://localhost:3000/?platform=${platform}&success=true`)
+    const response = NextResponse.redirect(`process.env.NEXTAUTH_URL/?platform=${platform}&success=true`)
     response.cookies.delete(`oauth_state_${platform}`)
     return response
   } catch (error) {
     console.error("OAuth callback error:", error)
     // return NextResponse.json({ error: "my auth error" }, { status: 500 })
-    return NextResponse.redirect("http://localhost:3000/?platform=${platform}&success=false")
+    return NextResponse.redirect("process.env.NEXTAUTH_URL/?platform=${platform}&success=false")
   }
 }
 

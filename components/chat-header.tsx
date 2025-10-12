@@ -11,7 +11,7 @@ interface ChatHeaderProps {
 
 export function ChatHeader({ onSettingsClick, onPublishedClick }: ChatHeaderProps) {
   return (
-    <header className="flex items-center justify-between border-b border-border bg-background px-6 py-4">
+    <header className="flex items-center justify-between border-b border-border bg-background px-2 md:px-6 h-[70px]">
       <div className="flex items-center gap-3">
         <div className="flex min-h-10 min-w-10 items-center justify-center rounded-lg bg-red-900">
           <Image src="/logo.png" alt="logo" width={10} height={10} className="min-h-10 min-w-10" />

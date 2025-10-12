@@ -94,7 +94,9 @@
     @apply bg-background text-foreground;
   }
 
-  input {
-    font-size: 16px !important;
-  }
+}
+
+input,
+textarea {
+  font-size: 16px !important;
 }

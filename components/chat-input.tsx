@@ -52,7 +52,7 @@ export function ChatInput({ onSendMessage, disabled, images, setImages }: ChatIn
   }
 
   return (
-    <div className="border-t border-border bg-background px-6 py-4">
+    <div className="border-t border-border bg-background px-2 md:px-6 py-4">
       <form onSubmit={handleSubmit} className="mx-auto max-w-4xl space-y-2">
 
 

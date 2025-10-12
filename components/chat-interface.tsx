@@ -259,7 +259,7 @@ export function ChatInterface() {
   const isDesktop = useMediaQuery("(min-width: 1024px)")
 
   return (
-    <div className="flex h-screen bg-surface">
+    <div className="flex h-[90vh] lg:h-screen bg-surface">
       <div className="flex flex-1 flex-col overflow-hidden">
         <ChatHeader
           onSettingsClick={() => setShowSettings(!showSettings)}
@@ -280,14 +280,14 @@ export function ChatInterface() {
       {!isDesktop && (
         <>
           <Drawer open={showSettings} onOpenChange={setShowSettings} direction="right">
-            <DrawerContent className="w-[90%] ml-auto h-full rounded-none">
+            <DrawerContent className="w-full ml-auto h-full rounded-none">
               <DrawerTitle></DrawerTitle>
               <SettingsPanel onClose={() => setShowSettings(false)} />
             </DrawerContent>
           </Drawer>
 
           <Drawer open={showPublished} onOpenChange={setShowPublished} direction="right">
-            <DrawerContent className="w-[90%] ml-auto h-full rounded-none">
+            <DrawerContent className="w-full ml-auto h-full rounded-none">
               <DrawerTitle></DrawerTitle>
               <PublishedPostsPanel onClose={() => setShowPublished(false)} />
             </DrawerContent>
