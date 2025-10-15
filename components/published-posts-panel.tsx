@@ -123,7 +123,7 @@ export function PublishedPostsPanel({ onClose }: PublishedPostsPanelProps) {
 
             {/* Repost modal */}
             {selectedPost && (
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={() => setSelectedPost(null)}>
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
                     <div className="bg-background rounded-lg p-6 w-full max-w-md shadow-lg">
                         <div className="flex items-start justify-between border-b pb-3">
                             <div>
