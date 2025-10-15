@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
           throw new Error("Unsupported platform")
       }
     } catch (error) {
-      console.error("[v0] Failed to post to platform:", error)
+      console.error("Failed to post to platform:", error)
       return NextResponse.json({ error: `Failed to post to ${draft.platform}` }, { status: 500 })
     }
 
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
       message: `Successfully posted to ${draft.platform}`,
     })
   } catch (error) {
-    console.error("[v0] Publish API error:", error)
+    console.error("Publish API error:", error)
     return NextResponse.json({ error: "Failed to publish post" }, { status: 500 })
   }
 }

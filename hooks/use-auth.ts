@@ -28,7 +28,7 @@ export function useAuth() {
             const data = await response.json()
             setUser(data.user)
         } catch (error) {
-            console.error("[v0] Failed to fetch session:", error)
+            console.error("Failed to fetch session:", error)
         } finally {
             setLoading(false)
         }
@@ -40,7 +40,7 @@ export function useAuth() {
             // Refresh session after OAuth completes
             await fetchSession()
         } catch (error) {
-            console.error("[v0] OAuth error:", error)
+            console.error("OAuth error:", error)
             alert(`Failed to connect ${platform}. Please try again.`)
         }
     }
@@ -57,7 +57,7 @@ export function useAuth() {
                 await fetchSession()
             }
         } catch (error) {
-            console.error("[v0] Failed to disconnect account:", error)
+            console.error("Failed to disconnect account:", error)
         }
     }
 

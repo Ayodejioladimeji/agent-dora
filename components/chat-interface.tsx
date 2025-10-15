@@ -46,7 +46,7 @@ export function ChatInterface() {
       setChatId(data.chatId)
       setMessages(data.messages.map((m: any) => ({ ...m, timestamp: new Date(m.timestamp) })))
     } catch (error) {
-      console.error("[v0] Failed to load messages:", error)
+      console.error("Failed to load messages:", error)
       setMessages([
         {
           id: "1",
@@ -239,7 +239,7 @@ export function ChatInterface() {
       )
 
     } catch (error) {
-      console.error("[v0] Failed to send message:", error)
+      console.error("Failed to send message:", error)
       setMessages((prev) =>
         prev.map((m) =>
           m.id === loadingId

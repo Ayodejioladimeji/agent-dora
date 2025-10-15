@@ -30,11 +30,11 @@ export async function postToFacebook(account: SocialAccount, content: string, im
       images.map(async (imageUrl) => {
         const photoResponse = await fetch(
           `https://graph.facebook.com/v18.0/${pageId}/photos?` +
-            new URLSearchParams({
-              url: imageUrl,
-              published: "false",
-              access_token: pageAccessToken,
-            }),
+          new URLSearchParams({
+            url: imageUrl,
+            published: "false",
+            access_token: pageAccessToken,
+          }),
           {
             method: "POST",
           },
@@ -52,11 +52,11 @@ export async function postToFacebook(account: SocialAccount, content: string, im
     // Create post with photos
     const postResponse = await fetch(
       `https://graph.facebook.com/v18.0/${pageId}/feed?` +
-        new URLSearchParams({
-          message: content,
-          attached_media: JSON.stringify(photoIds.map((id) => ({ media_fbid: id }))),
-          access_token: pageAccessToken,
-        }),
+      new URLSearchParams({
+        message: content,
+        attached_media: JSON.stringify(photoIds.map((id) => ({ media_fbid: id }))),
+        access_token: pageAccessToken,
+      }),
       {
         method: "POST",
       },
@@ -64,7 +64,7 @@ export async function postToFacebook(account: SocialAccount, content: string, im
 
     if (!postResponse.ok) {
       const error = await postResponse.text()
-      console.error("[v0] Facebook post error:", error)
+      console.error("Facebook post error:", error)
       throw new Error("Failed to post to Facebook")
     }
 
@@ -74,10 +74,10 @@ export async function postToFacebook(account: SocialAccount, content: string, im
     // Create text-only post
     const postResponse = await fetch(
       `https://graph.facebook.com/v18.0/${pageId}/feed?` +
-        new URLSearchParams({
-          message: content,
-          access_token: pageAccessToken,
-        }),
+      new URLSearchParams({
+        message: content,
+        access_token: pageAccessToken,
+      }),
       {
         method: "POST",
       },
@@ -85,7 +85,7 @@ export async function postToFacebook(account: SocialAccount, content: string, im
 
     if (!postResponse.ok) {
       const error = await postResponse.text()
-      console.error("[v0] Facebook post error:", error)
+      console.error("Facebook post error:", error)
       throw new Error("Failed to post to Facebook")
     }
 

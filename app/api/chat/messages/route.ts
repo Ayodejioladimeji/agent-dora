@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
             messages: chat.messages,
         })
     } catch (error) {
-        console.error("[v0] Failed to load messages:", error)
+        console.error("Failed to load messages:", error)
         return NextResponse.json({ error: "Failed to load messages" }, { status: 500 })
     }
 }
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({ success: true })
     } catch (error) {
-        console.error("[v0] Failed to save messages:", error)
+        console.error("Failed to save messages:", error)
         return NextResponse.json({ error: "Failed to save messages" }, { status: 500 })
     }
 }
@@ -56,7 +56,7 @@ export async function DELETE(request: NextRequest) {
 
         return NextResponse.json({ success: true })
     } catch (error) {
-        console.error("[v0] Failed to delete message:", error)
+        console.error("Failed to delete message:", error)
         return NextResponse.json({ error: "Failed to delete message" }, { status: 500 })
     }
 }

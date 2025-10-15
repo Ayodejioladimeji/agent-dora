@@ -59,7 +59,7 @@ export async function postToTwitter(account: SocialAccount, content: string, ima
 
   if (!response.ok) {
     const error = await response.text()
-    console.error("[v0] Twitter post error:", error)
+    console.error("Twitter post error:", error)
     throw new Error("Failed to post to Twitter")
   }
 

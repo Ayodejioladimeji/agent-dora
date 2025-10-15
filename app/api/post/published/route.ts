@@ -29,7 +29,7 @@ export async function GET(request: Request) {
 
         return NextResponse.json({ posts: out })
     } catch (err) {
-        console.error("[v0] Failed to fetch published posts:", err)
+        console.error("Failed to fetch published posts:", err)
         return NextResponse.json({ error: "Failed to fetch published posts" }, { status: 500 })
     }
 }

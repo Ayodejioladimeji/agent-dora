@@ -39,7 +39,7 @@ export async function fetchTrendingTopics(industry?: string): Promise<string[]> 
 
     return []
   } catch (error) {
-    console.error("[v0] Failed to fetch trending topics:", error)
+    console.error("Failed to fetch trending topics:", error)
     return []
   }
 }

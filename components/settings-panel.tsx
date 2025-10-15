@@ -18,7 +18,7 @@ interface SettingsPanelProps {
 }
 
 export function SettingsPanel({ onClose }: SettingsPanelProps) {
-  const { user, connectAccount, disconnectAccount } = useAuth()
+  const { user, connectAccount, disconnectAccount, logout } = useAuth()
   const { settings, updateSettings } = useSettings()
 
   const isConnected = (platform: string) => {
@@ -54,7 +54,10 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
         <div className="space-y-6">
           {/* User Info */}
           <div className="space-y-2">
-            <h3 className="text-sm font-bold">Account</h3>
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-bold">Account</h3>
+              <p onClick={() => logout()} className="text-red-500 cursor-pointer">Logout</p>
+            </div>
             {user && (
               <div className="rounded-lg bg-accent p-3">
                 <p className="text-sm font-medium">{user.name}</p>

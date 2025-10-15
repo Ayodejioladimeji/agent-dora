@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
     const drafts = await getDraftsByUser(userId)
     return NextResponse.json({ drafts })
   } catch (error) {
-    console.error("[v0] Failed to fetch drafts:", error)
+    console.error("Failed to fetch drafts:", error)
     return NextResponse.json({ error: "Failed to fetch drafts" }, { status: 500 })
   }
 }
@@ -30,7 +30,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error("[v0] Failed to update draft:", error)
+    console.error("Failed to update draft:", error)
     return NextResponse.json({ error: "Failed to update draft" }, { status: 500 })
   }
 }

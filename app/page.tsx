@@ -15,13 +15,7 @@ export default function Home() {
     }
   }, [user, loading])
 
-  if (loading) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-surface">
-        <p className="text-muted">Loading...</p>
-      </div>
-    )
-  }
+  if (loading) return null
 
   if (showLogin) {
     return <LoginForm onLogin={() => setShowLogin(false)} />

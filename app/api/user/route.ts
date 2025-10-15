@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
 
     return response
   } catch (error) {
-    console.error("[v0] User creation error:", error)
+    console.error("User creation error:", error)
     return NextResponse.json({ error: "Failed to create user" }, { status: 500 })
   }
 }

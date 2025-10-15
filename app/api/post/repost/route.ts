@@ -60,7 +60,7 @@ export async function POST(request: Request) {
                     return NextResponse.json({ error: "Unsupported platform" }, { status: 400 })
             }
         } catch (err: any) {
-            console.error("[v0] Repost failed:", err)
+            console.error("Repost failed:", err)
             return NextResponse.json({ error: "Failed to post to target platform", details: err.message || err }, { status: 500 })
         }
 
@@ -76,7 +76,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json({ success: true, post: { ...newPost, _id: newPost._id?.toString() } })
     } catch (err) {
-        console.error("[v0] Repost error:", err)
+        console.error("Repost error:", err)
         return NextResponse.json({ error: "Internal server error" }, { status: 500 })
     }
 }

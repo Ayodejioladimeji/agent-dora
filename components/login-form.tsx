@@ -33,7 +33,7 @@ export function LoginForm({ onLogin }: LoginFormProps) {
         onLogin(email, name)
       }
     } catch (error) {
-      console.error("[v0] Login error:", error)
+      console.error("Login error:", error)
     } finally {
       setIsLoading(false)
     }

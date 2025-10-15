@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ user: sanitizedUser })
   } catch (error) {
-    console.error("[v0] Session error:", error)
+    console.error("Session error:", error)
     return NextResponse.json({ user: null })
   }
 }
