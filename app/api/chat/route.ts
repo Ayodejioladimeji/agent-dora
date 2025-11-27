@@ -42,16 +42,16 @@ async function handleDemoMode(message: string, userId: string, action?: string, 
       // Fallback to mock if API fails
       if (topics.length === 0) {
         topics = [
-          "AI and Machine Learning in 2025",
-          "Remote Work Best Practices",
-          "Sustainable Business Strategies",
-          "Digital Marketing Trends",
-          "Productivity Hacks for Entrepreneurs",
-          "Cybersecurity for Small Businesses",
-          "The Future of E-commerce",
-          "Leadership in the Digital Age",
-          "Mental Health in the Workplace",
-          "Green Technology Innovations",
+          "ReactJs",
+          "Java",
+          "Javascript",
+          "Nodejs",
+          "NextJs",
+          "Typescript",
+          "NestJs",
+          "Redux",
+          "Context API",
+          "PHP",
         ]
       }
 

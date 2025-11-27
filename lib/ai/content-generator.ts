@@ -73,7 +73,7 @@ export async function generatePost(options: GeneratePostOptions): Promise<string
     ? `Preferred structure/format: ${settings.format}`
     : ""
 
-  const ctaInstruction = settings.cta ? `End with a call-to-action: ${settings.cta}` : ""
+  const ctaInstruction = settings.cta === "default" ? "Don't add the cta" : settings.cta
 
   const languageInstruction = settings.language
     ? `Write the post in ${settings.language}.`

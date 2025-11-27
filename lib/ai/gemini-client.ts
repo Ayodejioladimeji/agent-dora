@@ -8,7 +8,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
 
 export async function generateContent(prompt: string, systemInstruction?: string) {
   const model = genAI.getGenerativeModel({
-    model: "gemini-2.0-flash-exp",
+    model: "gemini-2.0-flash",
     systemInstruction,
   })
 
@@ -18,7 +18,7 @@ export async function generateContent(prompt: string, systemInstruction?: string
 
 export async function streamContent(prompt: string, systemInstruction?: string) {
   const model = genAI.getGenerativeModel({
-    model: "gemini-2.0-flash-exp",
+    model: "gemini-2.0-flash",
     systemInstruction,
   })
 
